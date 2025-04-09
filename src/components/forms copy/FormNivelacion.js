@@ -61,6 +61,8 @@ const FormNivelacion = () => {
     acreditacion_propiedad: '',
     documento_presentado: '',
     archivo_pdf: null,
+    curso_sader: '',
+    cuando_toma_sader: '',
     firma_digital: '',
   };
 
@@ -71,21 +73,33 @@ const FormNivelacion = () => {
     curp: Yup.string().length(18, 'CURP debe tener 18 caracteres').required('Campo obligatorio'),
     cuenta_conagua: Yup.string().required('Campo obligatorio'),
     domicilio: Yup.string().required('Campo obligatorio'),
-    telefono: Yup.string().required('Campo obligatorio'),
-    municipio: Yup.string().required('Campo obligatorio'),
+    telefono: Yup.string()
+      .matches(/^\d{10}$/, 'Debe tener 10 dígitos numéricos')
+      .required('Campo obligatorio'), municipio: Yup.string().required('Campo obligatorio'),
     superficie_parcela: Yup.number().positive('Debe ser positivo').required('Campo obligatorio'),
     tiempo_promedio_riego: Yup.number().positive().required('Campo obligatorio'),
-    latitud: Yup.number().required('Campo obligatorio'),
-    longitud: Yup.number().required('Campo obligatorio'),
+    latitud: Yup.number()
+      .typeError('Debe ser un número válido')
+      .required('Campo obligatorio'),
+
+    longitud: Yup.number()
+      .typeError('Debe ser un número válido')
+      .required('Campo obligatorio'),
     tamano_canaleta: Yup.number().min(0).required('Campo obligatorio'),
     gasto_canales: Yup.string().required('Campo obligatorio'),
     distancia_canaleta: Yup.number().min(0).required('Campo obligatorio'),
     tipo_seccion: Yup.string().required('Campo obligatorio'),
-    archivo_pdf: Yup.mixed().test(
-      'fileFormat',
-      'Solo se permite PDF',
-      (value) => !value || (value && value.type === 'application/pdf')
-    ),
+    archivo_pdf: Yup.mixed()
+      .required('Debe cargar un archivo PDF')
+      .test('fileFormat', 'Solo se permite PDF', (value) => {
+        return value && value.type === 'application/pdf';
+      }),
+    curso_sader: Yup.string().required('Campo obligatorio'),
+    cuando_toma_sader: Yup.string().when('curso_sader', {
+      is: 'no',
+      then: Yup.string().required('Especifique cuándo lo tomará'),
+      otherwise: Yup.string().oneOf(['No aplica']),
+    }),
     firma_digital: Yup.string().required('Firma requerida'),
   });
 
@@ -119,8 +133,7 @@ const FormNivelacion = () => {
       >
         {({ values, setFieldValue }) => {
           useEffect(() => {
-            const modulos = distritosPorModulos[values.distrito_riego] || [];
-            setModulosFiltrados(modulos);
+            setModulosFiltrados(distritosPorModulos[values.distrito_riego] || []);
 
             if (values.ha_nivelado !== 'si') {
               setFieldValue('anio_nivelacion', 'No aplica');
@@ -133,7 +146,11 @@ const FormNivelacion = () => {
             if (!cultivosAnuales.includes(values.cultivo_actual)) {
               setFieldValue('fecha_libre_parcela', 'No aplica');
             }
-          }, [values.distrito_riego, values.ha_nivelado, values.cultivo_actual, setFieldValue]);
+
+            if (values.curso_sader === 'si') {
+              setFieldValue('cuando_toma_sader', 'No aplica');
+            }
+          }, [values.distrito_riego, values.ha_nivelado, values.cultivo_actual, values.curso_sader]);
 
           return (
             <Form>
@@ -507,6 +524,29 @@ const FormNivelacion = () => {
                   />
                   <ErrorMessage name="archivo_pdf" component="div" className={styles.errorMessage} />
                 </div>
+              </div>
+
+              <div className={styles.formRow}>
+                <div className={styles.formGroup}>
+                  <label htmlFor="curso_sader">¿Cuenta con curso de capacitación de SADER?</label>
+                  <Field as="select" name="curso_sader" className={styles.inputField}>
+                    <option value="">Seleccione</option>
+                    {identificacionOpciones.map((opcion) => (
+                      <option key={opcion.value} value={opcion.value}>
+                        {opcion.label}
+                      </option>
+                    ))}
+                  </Field>
+                  <ErrorMessage name="curso_sader" component="div" className={styles.errorMessage} />
+                </div>
+
+                {values.curso_sader === 'no' && (
+                  <div className={styles.formGroup}>
+                    <label htmlFor="cuando_toma_sader">¿Cuándo lo piensa tomar?</label>
+                    <Field type="text" name="cuando_toma_sader" className={styles.inputField} />
+                    <ErrorMessage name="cuando_toma_sader" component="div" className={styles.errorMessage} />
+                  </div>
+                )}
               </div>
 
               <FirmaDigital setFieldValue={setFieldValue} />
