@@ -1,0 +1,158 @@
+.header-container {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-container h2 {
+  margin: 5vh 0 0 0;
+}
+
+.content_header {
+  display: flex;
+  width: 100vw;
+  text-align: center;
+  color: var(--blanco);
+  justify-content: flex-end;
+  align-items: center;
+  margin: 2%;
+}
+
+.content_header .header_txt {
+  position: absolute;
+  top: 40vh;
+  left: 31px;
+  transform: translate(0%, -50%);
+  width: 50vw;
+  height: auto;
+  opacity: 0;
+  transition: opacity 1s ease-in;
+  z-index: 2;
+}
+
+.content_header .header_txt img {
+  width: 100%;
+  height: auto;
+}
+
+.content_header .header_txt p {
+  text-align: left;
+  margin: 0;
+  font-weight: 500;
+  color: var(--grisClr);
+}
+
+.content_header .header_img {
+  width: 45vw;
+  opacity: 0;
+  transition: opacity 1s ease-in;
+  will-change: opacity, transform;
+}
+
+.content_header .header_img img {
+  width: 100%;
+  height: auto;
+}
+
+.floating-img {
+  display: block;
+  animation: floatingAnimation 10s infinite alternate ease-in-out, shadowAnimation 8s infinite alternate ease-in-out;
+  will-change: transform, filter;
+}
+
+@keyframes floatingAnimation {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-30px);
+  }
+}
+
+@keyframes shadowAnimation {
+  0% {
+    filter: drop-shadow(10px 10px 15px rgba(0, 0, 0, 0.2));
+  }
+
+  100% {
+    filter: drop-shadow(10px 10px 15px rgba(0, 0, 0, 0.35));
+  }
+}
+
+.fade-in {
+  opacity: 1 !important;
+}
+
+.ZonasMetro {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: column;
+  bottom: 20%;
+  left: 2vw;
+  width: 50vw;
+  height: 250px;
+  transform: translate(0%, 40%);
+  z-index: 2;
+}
+
+.ZonasMetro p {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.content_circuleZM {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+  height: auto;
+}
+
+.circuleZM {
+  position: relative;
+  width: 8rem;
+  height: 8rem;
+  border-radius: 50%;
+  transition: 1s;
+  cursor: pointer;
+}
+
+.circuleZM img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+
+.circuleZM:hover {
+  scale: 1.4;
+  transform: translateY(-30px);
+  margin: 40px;
+}
+
+/* Tooltip CSS */
+.tooltip {
+  position: absolute;
+  bottom: 110%; /* Ajusta la posición del tooltip */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none; /* Evita que el tooltip interfiera con el hover */
+  white-space: nowrap;
+}
+
+.circuleZM:hover .tooltip {
+  opacity: 1;
+}

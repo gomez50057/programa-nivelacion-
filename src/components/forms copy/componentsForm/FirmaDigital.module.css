@@ -1,0 +1,23 @@
+.signatureWrapper {
+  margin-top: 1rem;
+}
+
+.signatureCanvas {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.signatureControls {
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.button {
+  background-color: var(--vinoOsc);
+  color: white;
+  border: none;
+  padding: 6px 16px;
+  cursor: pointer;
+  border-radius: 6px;
+}

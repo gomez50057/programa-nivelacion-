@@ -1,0 +1,233 @@
+.chatbotWelcome {
+  width: 400px;
+  height: 80vh;
+  position: fixed;
+  right: 15px;
+  bottom: 30px;
+  background: rgba(245, 243, 245, 0.1);
+  border-radius: 40px;
+  border: 2px solid var(--grisClr);
+  backdrop-filter: blur(8px);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.25),
+    /* Sombra general */
+    inset 0 -2px 5px rgba(255, 255, 255, 0.4),
+    /* Luz superior */
+    inset 0 2px 5px rgba(0, 0, 0, 0.1);
+  /* Sombra inferior */
+  text-align: center;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 500;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.chatbotWelcome:hover {
+  transform: translateY(-8px);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.35),
+    inset 0 -2px 5px rgba(255, 255, 255, 0.4),
+    inset 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+
+.header {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.iconButtonXs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(to bottom, #ffffff, #f0f0f0);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.1) inset;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.iconButtonXs:hover {
+  transform: scale(1.1);
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2), 0px 2px 4px rgba(0, 0, 0, 0.15) inset;
+}
+
+.iconHeader {
+  font-size: 18px;
+  color: var(--grisOsc);
+}
+
+.content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.logotxt {
+  width: 160px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.logo {
+  width: 180px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 1.3rem;
+  font-weight: 500;
+  margin: 2px;
+  color: var(--vinoClr);
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  color: var(--vinoOsc);
+  font-weight: 500;
+  margin: 2px;
+}
+
+.subtitle span {
+  font-size: 1.4rem;
+  color: var(--doradoOsc);
+  font-style: italic;
+}
+
+.description {
+  font-size: 1rem;
+  color: var(--grisOsc);
+  margin: 2px;
+}
+
+.startButton {
+  background: var(--vinoClr);
+  color: var(--blanco);
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  margin: 10px 0 5px 0;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.startButton:hover {
+  background: #871b37;
+}
+
+.arrowRight {
+  font-size: 18px;
+}
+
+.logoCollapsed {
+  width: 80px;
+  height: 80px;
+  cursor: pointer;
+  position: fixed;
+  bottom: 30px;
+  right: 15px;
+  border-radius: 50%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background: white;
+  padding: 10px;
+  transition: transform 0.3s ease;
+}
+
+.logoCollapsed:hover {
+  transform: scale(1.1);
+}
+
+.startButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 15px 30px;
+  width: 100%;
+  font-size: 1.3rem;
+  font-weight: 600;
+  font-style: italic;
+  color: var(--doradoClr);
+  background-color: var(--blanco);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: capitalize;
+  letter-spacing: 1px;
+  gap: 10px;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(145deg, #ffffff, #e6e6e6);
+  box-shadow: inset -2px -2px 5px rgba(255, 255, 255, 0.6),
+    inset 2px 2px 5px rgba(0, 0, 0, 0.2),
+    4px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.startButton:hover {
+  transform: translateY(-4px);
+  box-shadow: inset -2px -2px 5px rgba(255, 255, 255, 0.8),
+    inset 2px 2px 5px rgba(228, 228, 228, 0.4),
+    4px 4px 10px rgba(0, 0, 0, 0.5);
+
+
+
+}
+
+.arrowIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  background-color: var(--doradoClr);
+  border-radius: 50%;
+  color: white;
+  position: absolute;
+  left: 58%;
+  transition: transform 0.5s ease, box-shadow 0.3s ease;
+  box-shadow: inset -2px -2px 5px rgba(255, 255, 255, 0.6),
+    inset 2px 2px 5px rgba(0, 0, 0, 0.2),
+    4px 4px 10px rgba(0, 0, 0, 0.3);
+  animation: moveArrow 1.2s ease-in-out infinite alternate;
+}
+
+.startButton:hover .arrowIcon {
+  animation: none;
+  animation: moveArrowEnd 1.5s ease-in-out 1 forwards;
+}
+
+/* Movimiento automático suave */
+@keyframes moveArrow {
+  0% {
+    transform: translateX(0px);
+  }
+
+  100% {
+    transform: translateX(26px);
+  }
+}
+
+/* Movimiento hasta la derecha */
+@keyframes moveArrowEnd {
+  0% {
+    transform: translateX(0px);
+  }
+
+  100% {
+    transform: translateX(105px);
+  }
+}

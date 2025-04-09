@@ -1,0 +1,106 @@
+.about-container {
+  display: flex;
+  padding: 3vh 0px;
+}
+
+.about-container .white-space-pre-line {
+  white-space: pre-line;
+}
+
+.about_txt {
+  width: 60vw;
+  height: auto;
+  padding-right: 2.5vw;
+}
+
+.about_txt h3 {
+  color: var(--vinoOsc);
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.about_txt p {
+  text-align: justify;
+  font-size: 1.1rem;
+  padding-right: 2.5vw;
+  line-height: 1.5;
+}
+
+.about_giro {
+  width: 40vw;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.gallery {
+  position: relative;
+  width: 350px;
+  height: 175px;
+}
+
+.gallery img {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 2px solid var(--vinoOsc);
+  padding: 5px;
+  background-color: var(blanco);
+  animation: semicircle 12s infinite ease-in-out;
+}
+
+.gallery img:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.gallery img:nth-child(2) {
+  animation-delay: 3s;
+}
+
+.gallery img:nth-child(3) {
+  animation-delay: 6s;
+}
+
+.gallery img:nth-child(4) {
+  animation-delay: 9s;
+}
+
+@keyframes semicircle {
+  0% {
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, 0) scale(0);
+    opacity: 0;
+  }
+
+  25% {
+    top: 50%;
+    left: 100%;
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    top: 0%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+
+  75% {
+    top: 50%;
+    left: 0%;
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, 0) scale(0);
+    opacity: 0;
+  }
+}
