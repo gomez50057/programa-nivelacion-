@@ -1,5 +1,5 @@
 import React from 'react';
-import FormularioCarga from '@/components/forms copy/FormNivelacion';
+import FormularioCarga from '@/components/forms/FormNivelacion';
 import Navbar from '@/components/shared/Navbar';
 
 

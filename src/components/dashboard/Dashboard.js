@@ -6,14 +6,12 @@ import '../shared/Preloader.css';
 import './Dashboard.css';
 
 const DashboardCharts = dynamic(() => import('./DashboardCharts'), { loading: () => <Preloader />, ssr: false });
-const Formulario = dynamic(() => import('../forms/CreateFormulario'), { loading: () => <Preloader />, ssr: false });
+const Formulario = dynamic(() => import('../forms/FormNivelacion'), { loading: () => <Preloader />, ssr: false });
 const Acuerdos = dynamic(() => import('../CRUDTable/coordinador/CRUDTable'), { loading: () => <Preloader />, ssr: false });
-const TableResponsable = dynamic(() => import('../CRUDTable/responsable/TableResponsable'), { loading: () => <Preloader />, ssr: false });
 const TableEnlace = dynamic(() => import('../CRUDTable/enlace/TableEnlace'), { loading: () => <Preloader />, ssr: false });
 const Headerdashboard = dynamic(() => import('../dashboard/HeaderDashboard'), { loading: () => <Preloader />, ssr: false });
 const SvgIcon = dynamic(() => import('../shared/SvgIcon'), { loading: () => <Preloader />, ssr: false });
 const ConfirmationModal = dynamic(() => import('../shared/LogoutModal'), { loading: () => <Preloader />, ssr: false });
-const Minutas = dynamic(() => import('./Minutas'), { loading: () => <Preloader />, ssr: false });
 
 
 const Dashboard = () => {
@@ -69,20 +67,16 @@ const Dashboard = () => {
 
   const renderContent = () => {
     switch (activeComponent) {
-      case 'minutas':
-        return <Minutas />;
       case 'formulario':
         return <Formulario />;
       case 'acuerdosCoordinador':
         return <Acuerdos />;
-      case 'acuerdosResponsable':
-        return <TableResponsable />;
       case 'acuerdosEnlace':
         return <TableEnlace />;
       case 'dashboardCharts':
         return <DashboardCharts />;
       default:
-        return <h1>DASHBOARD</h1>;
+        return <h1>DASHBOARD <span>elige una opcion</span></h1>;
     }
   };
 
@@ -103,18 +97,7 @@ const Dashboard = () => {
               </a>
             </li>
           )}
-          {userRole === 'coordinador' && (
-            <li className="list-item" data-component="minutas" onClick={() => handleMenuClick('minutas')}>
-              <b></b>
-              <b></b>
-              <a href="#" className="list-item-link">
-                <div className="icon">
-                  <SvgIcon name="dashboard" />
-                </div>
-                <span className="title">Minutas</span>
-              </a>
-            </li>
-          )}
+          
           {userRole === 'coordinador' && (
             <li className="list-item" data-component="formulario" onClick={() => handleMenuClick('formulario')}>
               <b></b>
@@ -137,23 +120,6 @@ const Dashboard = () => {
                 </div>
                 <span className="title">Acuerdos</span>
                 <span className="sub-title">coordinador</span>
-              </a>
-            </li>
-          )}
-          {userRole === 'responsable' && (
-            <li
-              className="list-item"
-              data-component="acuerdosResponsable"
-              onClick={() => handleMenuClick('acuerdosResponsable')}
-            >
-              <b></b>
-              <b></b>
-              <a href="#" className="list-item-link">
-                <div className="icon">
-                  <SvgIcon name="acuerdo" />
-                </div>
-                <span className="title">Acuerdos</span>
-                <span className="sub-title">responsable</span>
               </a>
             </li>
           )}

@@ -125,7 +125,7 @@ const FormNivelacion = () => {
 
   return (
     <div className={styles.formWrapper}>
-      <h2>Formulario de Nivelación de Tierra</h2>
+      {/* <h2>Solicitud al Programa de Nivelación de Tierras del Estado de Hidalgo de los Distritos 003, 100 y 112</h2> */}
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
