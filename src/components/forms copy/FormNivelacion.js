@@ -1,14 +1,27 @@
 'use client';
 
-import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useState, useEffect } from 'react';
-
-import axios from 'axios';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import axios from 'axios';
+
 import SectionTitle from './componentsForm/SectionTitle';
 import FirmaDigital from './componentsForm/FirmaDigital';
 import styles from './FormNivelacion.module.css';
-import { municipiosDeHidalgo, identificacionOpciones, distritosPorModulos, nivelesOpciones, profundidadSueloOpciones, tipoRevestimientoOpciones, gastoCanalesOpciones, tipoSeccionOpciones, productoSembrados, cultivosAnuales, documentosPresentados } from '@/utils/utils';
+
+import {
+  municipiosDeHidalgo,
+  identificacionOpciones,
+  distritosPorModulos,
+  nivelesOpciones,
+  profundidadSueloOpciones,
+  tipoRevestimientoOpciones,
+  gastoCanalesOpciones,
+  tipoSeccionOpciones,
+  productoSembrados,
+  cultivosAnuales,
+  documentosPresentados
+} from '@/utils/utils';
 
 const FormNivelacion = () => {
   const [modulosFiltrados, setModulosFiltrados] = useState([]);
@@ -24,34 +37,57 @@ const FormNivelacion = () => {
     telefono: '',
     municipio: '',
     localidad: '',
-    superficie_parcela: '',
-    tamanio_canaleta: '',
-    gasto_canaleta: '',
-    tipo_seccion: '',
-    tiempo_promedio_riego: '',
-    tipo_revestimiento: '',
-    distancia_canaleta: '',
-    ha_nivelado: false,
-    anio_nivelacion: '',
-    problemas_drenaje: false,
-    cultivos_dominantes: '',
-    perene_roturacion: false,
-    fecha_libre_parcela: '',
-    acreditacion_propiedad: false,
-    documento_presentado: '',
-    identificacion_oficial: false,
-    area_prioritaria: false,
-    convenio_pnh: false,
-    pendiente_promedio: '',
-    volumen_agua_anual: '',
-    profundidad_mayor_40: false,
-    profundidad_menor_40: false,
-    pedregosidad: '',
-    constancia_curso: false,
-    tipo_suelo: '',
     distrito_riego: '',
-    modulo_riego: ''
+    modulo_riego: '',
+    superficie_parcela: '',
+    tiempo_promedio_riego: '',
+    latitud: '',
+    longitud: '',
+    grado_pendiente: '',
+    pedregosidad: '',
+    profundidad_suelo: '',
+    tamano_canaleta: '',
+    tipo_revestimiento: '',
+    gasto_canales: '',
+    distancia_canaleta: '',
+    tipo_seccion: '',
+    ha_nivelado: '',
+    anio_nivelacion: '',
+    problemas_drenaje: '',
+    cultivos_dominantes: '',
+    cultivo_actual: '',
+    perene_roturacion: '',
+    fecha_libre_parcela: '',
+    acreditacion_propiedad: '',
+    documento_presentado: '',
+    archivo_pdf: null,
+    firma_digital: '',
   };
+
+  const validationSchema = Yup.object({
+    nombre: Yup.string().required('Campo obligatorio'),
+    apellido_paterno: Yup.string().required('Campo obligatorio'),
+    apellido_materno: Yup.string().required('Campo obligatorio'),
+    curp: Yup.string().length(18, 'CURP debe tener 18 caracteres').required('Campo obligatorio'),
+    cuenta_conagua: Yup.string().required('Campo obligatorio'),
+    domicilio: Yup.string().required('Campo obligatorio'),
+    telefono: Yup.string().required('Campo obligatorio'),
+    municipio: Yup.string().required('Campo obligatorio'),
+    superficie_parcela: Yup.number().positive('Debe ser positivo').required('Campo obligatorio'),
+    tiempo_promedio_riego: Yup.number().positive().required('Campo obligatorio'),
+    latitud: Yup.number().required('Campo obligatorio'),
+    longitud: Yup.number().required('Campo obligatorio'),
+    tamano_canaleta: Yup.number().min(0).required('Campo obligatorio'),
+    gasto_canales: Yup.string().required('Campo obligatorio'),
+    distancia_canaleta: Yup.number().min(0).required('Campo obligatorio'),
+    tipo_seccion: Yup.string().required('Campo obligatorio'),
+    archivo_pdf: Yup.mixed().test(
+      'fileFormat',
+      'Solo se permite PDF',
+      (value) => !value || (value && value.type === 'application/pdf')
+    ),
+    firma_digital: Yup.string().required('Firma requerida'),
+  });
 
   const handleSubmit = async (values, { resetForm }) => {
     try {
@@ -59,50 +95,49 @@ const FormNivelacion = () => {
       for (const key in values) {
         formData.append(key, values[key]);
       }
-  
+
       await axios.post('http://localhost:8000/api/formularios/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-  
+
       alert('Formulario enviado con éxito');
       resetForm();
     } catch (error) {
       console.error('Error al enviar el formulario:', error);
     }
   };
-  
 
   return (
     <div className={styles.formWrapper}>
       <h2>Formulario de Nivelación de Tierra</h2>
-      <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-        {({ values, handleChange, setFieldValue }) => {
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+      >
+        {({ values, setFieldValue }) => {
           useEffect(() => {
             const modulos = distritosPorModulos[values.distrito_riego] || [];
             setModulosFiltrados(modulos);
-            if (!values.ha_nivelado) {
+
+            if (values.ha_nivelado !== 'si') {
               setFieldValue('anio_nivelacion', 'No aplica');
             }
-          }, [values.distrito_riego, values.ha_nivelado]);
 
-          useEffect(() => {
-            if (values.ha_nivelado === 'no') {
-              setFieldValue('anio_nivelacion', 'No aplica');
-            }
-          }, [values.ha_nivelado, setFieldValue]);
-
-          useEffect(() => {
             if (values.cultivo_actual !== 'Alfalfa') {
               setFieldValue('perene_roturacion', 'No aplica');
             }
-          }, [values.cultivo_actual, setFieldValue]);
+
+            if (!cultivosAnuales.includes(values.cultivo_actual)) {
+              setFieldValue('fecha_libre_parcela', 'No aplica');
+            }
+          }, [values.distrito_riego, values.ha_nivelado, values.cultivo_actual, setFieldValue]);
 
           return (
             <Form>
-              {/* GENERALIDADES DEL PROYECTO */}
-              <SectionTitle title="Generalidades del Proyecto" />
+              <SectionTitle title="Datos Personales" />
               <div className={styles.formRow}>
                 <div className={styles.formGroup}>
                   <label htmlFor="nombre">Nombre:</label>
@@ -456,32 +491,32 @@ const FormNivelacion = () => {
                 </div>
               </div>
 
-
+              <SectionTitle title="Carga de Documento y Firma" />
               <div className={styles.formRow}>
-              <div className={styles.formGroup}>
-  <label htmlFor="archivo_pdf">Cargar documento (solo PDF):</label>
-  <input
-    id="archivo_pdf"
-    name="archivo_pdf"
-    type="file"
-    accept="application/pdf"
-    onChange={(event) => {
-      setFieldValue('archivo_pdf', event.currentTarget.files[0]);
-    }}
-    className={styles.inputField}
-/>
-  <ErrorMessage name="archivo_pdf" component="div" className={styles.errorMessage} />
-</div>
-
+                <div className={styles.formGroup}>
+                  <label htmlFor="archivo_pdf">Cargar documento (solo PDF):</label>
+                  <input
+                    id="archivo_pdf"
+                    name="archivo_pdf"
+                    type="file"
+                    accept="application/pdf"
+                    onChange={(event) => {
+                      setFieldValue('archivo_pdf', event.currentTarget.files[0]);
+                    }}
+                    className={styles.inputField}
+                  />
+                  <ErrorMessage name="archivo_pdf" component="div" className={styles.errorMessage} />
+                </div>
               </div>
-              <FirmaDigital setFieldValue={setFieldValue} />
 
+              <FirmaDigital setFieldValue={setFieldValue} />
 
               <div className={styles.formGroup}>
                 <button type="submit" className={styles.submitButton}>
                   Enviar Formulario
                 </button>
               </div>
+
             </Form>
           );
         }}
