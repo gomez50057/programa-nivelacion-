@@ -97,9 +97,9 @@ const FormNivelacion = () => {
     curso_sader: Yup.string().required('Campo obligatorio'),
     cuando_toma_sader: Yup.string().when('curso_sader', {
       is: 'no',
-      then: Yup.string().required('Especifique cuándo lo tomará'),
-      otherwise: Yup.string().oneOf(['No aplica']),
-    }),
+      then: (schema) => schema.required('Especifique cuándo lo tomará'),
+      otherwise: (schema) => schema.oneOf(['No aplica']),
+    }),       
     firma_digital: Yup.string().required('Firma requerida'),
   });
 
